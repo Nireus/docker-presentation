@@ -1,0 +1,33 @@
+version: '2.1'
+services:
+
+  app1:
+    container_name: app1
+    build: ./
+    ports:
+     - 8081:8080
+     - 8781:8787
+    volumes:
+     - ./volume/app1:/volume
+    environment:
+     - ENVVAR=app1
+
+#
+#  ----------------------------------------------------------------------------------------
+#
+  app2:
+    container_name: app2
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    links:
+     - app1
+    depends_on:
+     - app1
+    ports:
+     - 8082:8080
+     - 8782:8787
+    volumes:
+     - ./volume/app2:/volume
+    environment:
+     - ENVVAR=app2
